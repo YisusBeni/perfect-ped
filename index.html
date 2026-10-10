@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -85,11 +85,12 @@ h1,h2,.px{font-family:'Pixelify Sans',monospace;margin:0}
 .side{grid-area:side;align-self:start}
 .side h3{font-family:'Pixelify Sans',monospace;font-weight:500;text-align:center;font-size:15px;margin:0 12px 10px;line-height:1.3}
 .pets{display:grid;gap:10px;padding:0 12px 14px}
-.pet{display:block;width:100%;font:inherit;color:var(--ink);text-align:center;border:3px solid var(--line);border-radius:12px;padding:8px 0 6px;cursor:pointer}
+.pet{display:block;width:100%;font:inherit;color:var(--ink);text-align:center;border:3px solid var(--line);border-radius:12px;padding:8px 0 6px;cursor:default}
 .pet:nth-child(1){background:var(--o3)}.pet:nth-child(2){background:var(--o2)}
 .pet:nth-child(3){background:#c4eeee}.pet:nth-child(4){background:#c7e4ff}.pet:nth-child(5){background:var(--o1)}
-.pet .em{display:block;font-size:46px;line-height:1.15;transition:transform .2s}
-.pet:hover .em{transform:scale(1.15) rotate(-6deg)}
+.pet .em{display:block;font-size:46px;line-height:1.15;transition:transform 1.2s cubic-bezier(.22,.61,.36,1);will-change:transform;backface-visibility:hidden;transform:translateZ(0)}
+.pet:hover .em,.pet.active .em{animation:hop .9s ease-in-out}
+@keyframes hop{0%{transform:translateY(0)}35%{transform:translateY(-16px)}60%{transform:translateY(0)}78%{transform:translateY(-5px)}100%{transform:translateY(0)}}
 .pet b{font-family:'Pixelify Sans',monospace;font-weight:500;font-size:15px;letter-spacing:1px}
 .slogan{margin-top:18px;display:flex;align-items:center;gap:12px;padding:14px;font-family:'Pixelify Sans',monospace;font-size:15px;line-height:1.35}
 .slogan span{font-size:32px}
@@ -115,56 +116,60 @@ footer{margin-top:26px;padding:22px 16px calc(22px + env(safe-area-inset-bottom,
 </head>
 <body>
 <main class="wrap">
-
-  <aside class="win side">
-    <div class="bar"><i></i><i></i><i></i></div>
-    <h3>CONOCE A TUS POSIBLES AMIGOS 💗</h3>
-    <div class="pets" id="pets"></div>
-  </aside>
-
   <header class="hero">
     <span class="mascot" aria-hidden="true">🐱</span>
-    <div class="note" aria-hidden="true">Más patitas felices en el mundo 💗</div>
+    <div class="note" aria-hidden="true">More happy paws in the world 💗</div>
     <div class="win">
       <div class="bar" style="justify-content:flex-end"><i></i><i></i><i></i></div>
       <h1>FIND YOUR PERFECT PET</h1>
-      <p>Descubre qué mascota encaja mejor con tu estilo de vida</p>
+      <p>Discover which pet best fits your lifestyle</p>
     </div>
   </header>
-  
+
   <section class="win quiz" aria-live="polite">
     <div class="bar"><i></i><i></i><i></i></div>
     <div class="qbody" id="app"></div>
   </section>
 
+  <aside class="win side">
+    <div class="bar"><i></i><i></i><i></i></div>
+    <h3>MEET YOUR POSSIBLE FRIENDS 💗</h3>
+    <div class="pets" id="pets"></div>
+  </aside>
+
   <section class="win life">
-    <div class="bar"><i></i><i></i><i></i><h3 style="margin:0 auto;transform:translateX(-30px)">TU ESTILO DE VIDA IMPORTA 💗</h3></div>
+    <div class="bar"><i></i><i></i><i></i><h3 style="margin:0 auto;transform:translateX(-30px)">YOUR LIFESTYLE MATTERS 💗</h3></div>
     <div class="tiles">
-      <div class="tile"><div class="e">⏰</div><b>Tiempo</b>¿Cuánto puedes dedicar?</div>
-      <div class="tile"><div class="e">🐷</div><b>Presupuesto</b>Cuida tu bolsillo y el suyo</div>
-      <div class="tile"><div class="e">🏡</div><b>Espacio</b>¿En casa o en apartamento?</div>
-      <div class="tile"><div class="e">⚡</div><b>Energía</b>¿Tranquilo o aventurero?</div>
+      <div class="tile"><div class="e">⏰</div><b>Time</b>How much can you give?</div>
+      <div class="tile"><div class="e">🐷</div><b>Budget</b>Care for your wallet and theirs</div>
+      <div class="tile"><div class="e">🏡</div><b>Space</b>House or apartment?</div>
+      <div class="tile"><div class="e">⚡</div><b>Energy</b>Calm or adventurous?</div>
     </div>
   </section>
 </main>
-<footer>MASCOTAS 💗 VIDAS MÁS FELICES</footer>
+<footer>PETS 💗 HAPPIER LIVES</footer>
 
 <script>
 // puntajes por opción: [perro, gato, conejo, pez, tortuga]
 const PETS=[
- {id:0,n:"Perro",e:"🐶",d:"Leal, juguetón y siempre feliz de verte. Necesita paseos, tiempo y mucho cariño a diario.",t:["Aventurero","Muy cariñoso","Necesita espacio"]},
- {id:1,n:"Gato",e:"🐱",d:"Independiente pero afectuoso. Se adapta bien a apartamentos y a horarios ocupados.",t:["Independiente","Ideal para apartamento","Cariño a su ritmo"]},
- {id:2,n:"Conejo",e:"🐰",d:"Suave, curioso y sociable. Disfruta de la calma, el juego tranquilo y tu compañía.",t:["Tranquilo","Sociable","Necesita rutina"]},
- {id:3,n:"Pez",e:"🐠",d:"Relajante y de bajo mantenimiento. Perfecto para observar y para espacios pequeños.",t:["Poco tiempo","Espacios pequeños","Para observar"]},
- {id:4,n:"Tortuga",e:"🐢",d:"Paciente y longeva. Pide poco día a día, pero es un compromiso a muchos años.",t:["Muy tranquila","Larga vida","Independiente"]}
+ {id:0,n:"Dog",e:"🐶",d:"Loyal, playful and always happy to see you. Needs walks, time and lots of daily affection.",t:["Adventurous","Very affectionate","Needs space"]},
+ {id:1,n:"Cat",e:"🐱",d:"Independent but loving. Adapts well to apartments and busy schedules.",t:["Independent","Great for apartments","Affection on its own terms"]},
+ {id:2,n:"Rabbit",e:"🐰",d:"Soft, curious and social. Enjoys calm, quiet play and your company.",t:["Calm","Social","Needs routine"]},
+ {id:3,n:"Fish",e:"🐠",d:"Relaxing and low-maintenance. Perfect for watching and for small spaces.",t:["Little time","Small spaces","Fun to watch"]},
+ {id:4,n:"Turtle",e:"🐢",d:"Patient and long-lived. Asks little day to day, but it's a commitment of many years.",t:["Very calm","Long life","Independent"]}
 ];
 const Q=[
- {i:"⏱️",q:"¿Cuánto tiempo tienes al día?",o:[["Menos de 30 min",[0,2,1,4,4]],["1–2 horas",[2,4,3,2,2]],["Varias horas",[5,3,3,0,1]],["Depende del día",[2,3,2,3,3]]]},
- {i:"🐷",q:"¿Cuál es tu presupuesto mensual?",o:[["Ajustado",[0,2,1,4,3]],["Medio",[2,4,3,2,2]],["Cómodo",[4,3,3,2,2]],["Flexible",[3,3,3,3,3]]]},
- {i:"🏡",q:"¿Cómo es tu espacio?",o:[["Apartamento pequeño",[0,4,1,4,2]],["Apartamento grande",[2,4,3,3,3]],["Casa con patio",[5,3,3,2,4]],["Casa grande",[5,3,4,2,4]]]},
- {i:"⚡",q:"¿Cuánta energía tienes?",o:[["Tranquilo",[0,4,3,4,4]],["Moderado",[2,4,4,2,2]],["Aventurero",[6,2,2,0,0]],["Depende del día",[2,3,3,3,3]]]},
- {i:"🚪",q:"¿Cuánto pasas fuera de casa?",o:[["Casi todo el día",[0,3,0,4,4]],["Medio día",[2,4,2,3,3]],["Poco, trabajo en casa",[5,3,4,2,2]],["Viajo seguido",[0,2,0,3,4]]]},
- {i:"💞",q:"¿Qué tipo de compañía buscas?",o:[["Mucho cariño y juego",[6,3,3,0,0]],["Cariño tranquilo",[2,5,4,0,1]],["Solo observar",[0,1,1,6,5]],["Que sea independiente",[0,4,1,4,4]]]}
+ {i:"⏱️",q:"How much free time do you have every day?",o:[["A lot of free time",[4,2,3,1,1]],["Some free time",[2,4,3,3,3]],["Very little free time",[0,3,2,4,4]]]},
+ {i:"🐾",q:"What type of pet do you prefer?",o:[["Active and playful",[5,2,2,1,0]],["Calm and quiet",[0,3,3,4,4]],["Small and cute",[0,2,5,3,3]],["I don’t know yet",[2,2,2,2,2]]]},
+ {i:"🏡",q:"How much space do you have at home?",o:[["A large space",[5,3,3,2,3]],["A medium space",[3,4,4,3,3]],["A small space",[0,3,2,4,3]]]},
+ {i:"⏰",q:"How much time can you spend taking care of your pet every day?",o:[["More than 2 hours",[5,2,3,1,0]],["Between 30 minutes and 2 hours",[3,4,4,2,2]],["Less than 30 minutes",[0,3,1,4,5]]]},
+ {i:"🧹",q:"How do you feel about cleaning your pet’s living space?",o:[["I don’t mind cleaning often.",[3,2,4,3,4]],["I can clean it a few times a week.",[3,3,3,3,3]],["I prefer a pet that needs less cleaning.",[2,4,0,2,2]]]},
+ {i:"🎾",q:"What would you like to do with your pet?",o:[["Play and exercise together.",[5,3,3,0,0]],["Relax and spend time together.",[3,5,4,0,1]],["Watch and enjoy my pet.",[0,1,2,5,4]],["Give my pet a quiet environment.",[0,3,3,3,4]]]},
+ {i:"💭",q:"What type of animal sounds best for you?",o:[["A dog 🐶",[0,0,0,0,0]],["A cat 🐱",[0,0,0,0,0]],["A rabbit 🐰",[0,0,0,0,0]],["A bird 🐦",[0,0,0,0,0]],["A turtle 🐢",[0,0,0,0,0]],["A hamster 🐹",[0,0,0,0,0]],["A fish 🐠",[0,0,0,0,0]],["I don’t know.",[0,0,0,0,0]]]},
+ {i:"💞",q:"How do you feel about having a pet that needs a lot of attention?",o:[["I love giving a lot of attention.",[5,3,4,0,0]],["I can give some attention.",[3,4,3,2,2]],["I prefer a more independent pet.",[0,4,1,4,5]]]},
+ {i:"⭐",q:"What is most important for you in a pet?",o:[["Having a playful friend.",[5,3,3,0,0]],["Having a calm companion.",[1,5,4,2,3]],["Having a small pet.",[0,2,5,3,3]],["Having a beautiful animal to watch.",[0,2,2,5,4]]]},
+ {i:"📅",q:"What kind of routine do you prefer?",o:[["An active routine.",[5,2,3,1,0]],["A quiet routine.",[0,4,3,4,5]],["A mix of both.",[3,4,4,3,3]]]},
+ {i:"🕰️",q:"Are you ready to take care of a pet for many years?",o:[["Yes, I am ready.",[4,4,3,3,5]],["Maybe, I need to learn more.",[3,3,3,3,2]],["I prefer a pet with simpler care.",[1,3,2,5,3]]]}
 ];
 let step=0,sel=[],ans=[];
 const app=document.getElementById('app');
@@ -173,7 +178,7 @@ function show(){
   if(step>=Q.length) return result();
   const q=Q[step], cur=ans[step];
   app.innerHTML=`
-    <div class="count">Pregunta ${step+1} de ${Q.length}</div>
+    <div class="count">Question ${step+1} of ${Q.length}</div>
     <div class="prog">${Q.map((_,i)=>`<span class="${i<=step?'on':''}"></span>`).join('')}</div>
     <div class="q"><span class="ic" aria-hidden="true">${q.i}</span><h2>${q.q}</h2></div>
     <div class="opts" role="radiogroup" aria-label="${q.q}">
@@ -181,8 +186,8 @@ function show(){
     </div>
     <p class="err" id="err"></p>
     <div class="nav">
-      ${step>0?'<button class="go alt" id="back">Atrás</button>':''}
-      <button class="go" id="next">${step===Q.length-1?'Ver resultado':'Siguiente →'}</button>
+      ${step>0?'<button class="go alt" id="back">Back</button>':''}
+      <button class="go" id="next">${step===Q.length-1?'See result':'Next →'}</button>
     </div>`;
   app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
     ans[step]=+b.dataset.i;
@@ -190,8 +195,8 @@ function show(){
     document.getElementById('err').textContent='';
   });
   document.getElementById('next').onclick=()=>{
-    if(ans[step]===undefined){document.getElementById('err').textContent='Elige una opción para continuar 💗';return}
-    step++;show();
+    if(ans[step]===undefined){document.getElementById('err').textContent='Choose an option to continue 💗';return}
+    lightPets(ans[step]);step++;show();
   };
   const bk=document.getElementById('back'); if(bk) bk.onclick=()=>{step--;show()};
 }
@@ -206,23 +211,32 @@ function result(){
     <div class="prog">${Q.map(()=>'<span class="on"></span>').join('')}</div>
     <div class="res">
       <div class="big" aria-hidden="true">${p.e}</div>
-      <h2>¡Tu mascota ideal: ${p.n}!</h2>
+      <h2>¡Your ideal pet: ${p.n}!</h2>
       <p>${p.d}</p>
-      <div class="match"><span>${pct}% de compatibilidad</span>${p.t.map(t=>`<span>${t}</span>`).join('')}</div>
-      <p style="font-size:15px">También podría gustarte: ${second.e} ${second.n}</p>
+      <div class="match"><span>${pct}% match</span>${p.t.map(t=>`<span>${t}</span>`).join('')}</div>
+      <p style="font-size:15px">You might also like: ${second.e} ${second.n}</p>
     </div>
-    <div class="nav"><button class="go" id="again">Repetir test</button></div>`;
+    <div class="nav"><button class="go" id="again">Retake test</button></div>`;
   document.getElementById('again').onclick=()=>{step=0;ans=[];show()};
 }
 
-document.getElementById('pets').innerHTML=PETS.map(p=>`<button class="pet" data-id="${p.id}" aria-label="${p.n}"><span class="em" aria-hidden="true">${p.e}</span><b>${p.n.toUpperCase()}</b></button>`).join('');
-document.querySelectorAll('.pet').forEach(b=>b.onclick=()=>{
-  const p=PETS[+b.dataset.id];
-  app.innerHTML=`<div class="res"><div class="big" aria-hidden="true">${p.e}</div><h2>${p.n}</h2><p>${p.d}</p>
-    <div class="match">${p.t.map(t=>`<span>${t}</span>`).join('')}</div></div>
-    <div class="nav"><button class="go" id="resume">${step>0&&step<Q.length?'Volver al test':'Hacer el test'}</button></div>`;
-  document.getElementById('resume').onclick=()=>{ if(step>=Q.length){step=0;ans=[]} show()};
-});
+document.getElementById('pets').innerHTML=PETS.map(p=>`<div class="pet" aria-label="${p.n}"><span class="em" aria-hidden="true">${p.e}</span><b>${p.n.toUpperCase()}</b></div>`).join('');
+let petTimer;
+function lightPets(i){
+  let ids=[];
+  if(i!==undefined){
+    const o=Q[step].o[i], m=Math.max(...o[1]);
+    ids=m>0 ? o[1].map((v,k)=>v===m?k:-1).filter(k=>k>=0)
+            : PETS.map((p,k)=>o[0].includes(p.e)?k:-1).filter(k=>k>=0);
+    if(ids.length>2) ids=[];
+  }
+  const pets=document.querySelectorAll('.pet');
+  pets.forEach(el=>el.classList.remove('active'));
+  void document.body.offsetWidth;
+  pets.forEach((el,k)=>el.classList.toggle('active',ids.includes(k)));
+  clearTimeout(petTimer);
+  if(ids.length) petTimer=setTimeout(()=>lightPets(),1200);
+}
 show();
 </script>
 </body>
